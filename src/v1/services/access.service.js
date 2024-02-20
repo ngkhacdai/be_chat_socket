@@ -23,6 +23,7 @@ exports.login = async ({ email, password }) => {
     if (!user) {
         return {
             message: 'Sai tài khoản hoặc mật khẩu',
+            status: 401
         }
     }
     const checkPassword = await bcrypt.compare(password, user.password)
