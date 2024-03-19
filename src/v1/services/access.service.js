@@ -5,7 +5,6 @@ const { createToken } = require('../auth/auth')
 
 exports.register = async ({ email, username, password }) => {
     const hashPassword = await bcrypt.hash(password, 10)
-    console.log(hashPassword);
     const publickey = await crypto.randomBytes(32).toString('hex')
     const user = await userSchema.create({ email, username, password: hashPassword, publickey })
     if (!user) {
@@ -30,6 +29,7 @@ exports.login = async ({ email, password }) => {
     if (!checkPassword) {
         return {
             message: 'Sai tài khoản hoặc mật khẩu',
+            status: 401
         }
     }
     const token = createToken({ userId: user._id }, user.publickey)
